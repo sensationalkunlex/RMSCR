@@ -1,0 +1,43 @@
+﻿@using InventoryRMSCR.Models;
+@*Cart*@
+<table class="table table-striped table-hover" style=" width:55%;">
+
+    <tr>
+        <th>Product ID</th>
+        <th>ProductName</th>
+        <th>Available Quantity</th>
+        <th>Qty </th>
+
+
+        @*<th>FactoryQuantity</th>*@
+
+    </tr>
+    @{
+        int j = 0;
+    }
+    @foreach (Items item in (List<Items>)Session["cart"]) // Display each item from cart
+    {
+
+
+
+
+        <tr>
+
+            <td>@item.Produc.ProductID</td>
+            <td class="form-control-static">
+                @item.Produc.ProductName
+            </td>
+            <td>@item.Produc.qty</td>
+            <td>@item.Quantity</td>
+
+
+
+        </tr>
+
+    }
+    <tr>
+        <td align="right" colspan="5"><strong></strong></td>
+
+    </tr>
+</table>
+

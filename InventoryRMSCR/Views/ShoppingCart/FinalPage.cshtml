@@ -1,0 +1,64 @@
+﻿@model InventoryRMSCR.Models.ViewModelTransac
+@{
+    ViewBag.Title = "Confirmation Page";
+}
+
+<h2></h2>
+
+<div class="well bs-component">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <h2></h2>
+        <fieldset>
+            <legend> Information</legend>
+            @* passing record is main here*@
+
+            <div class="form-group">
+                <div class="col-lg-2"><h4 class="text-info" style="color:black">MasterID</h4> </div>
+                <div class="col-lg-10 control-label">
+                    <h4 class="text-info" style="color:black"> @ViewBag.MasterID</h4>
+                </div>
+            </div>
+            <br />
+          
+
+            <div class="form-group">
+                <h4 class="col-lg-2 text-info " style="color:black">Factory Name</h4>
+                <div class="col-lg-10">
+                    @Html.DropDownListFor(m => m.FactoryName, ViewBag.Factory as SelectList, new { @class = "form-control" })
+                    @*@Html.EditorFor(model => model.FactoryName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "" } })*@
+                    @Html.ValidationMessageFor(model => model.FactoryName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+        </fieldset>
+        @* passing record is main here*@
+
+
+        <div class="col-lg-offset-5 col-md-offset-5 btn-large">
+
+            <input type="submit" value="Submit" class="btn btn-primary btn-large" />
+        </div>
+
+
+    }
+
+
+
+    <p>
+    </p>
+
+</div>
+
+<div class="well bs-component">
+    <h2 class="wow fadeInUp">Your Cart</h2>
+    @Html.Partial("_partCart")
+</div>
