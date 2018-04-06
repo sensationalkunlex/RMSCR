@@ -58,6 +58,7 @@ namespace InventoryRMSCR.Controllers
                             select d.ProductID;
                 foreach (var g in query)
                 {
+                    ViewBag.Error = "The Product Name is in database before";
                     return View();
 
 

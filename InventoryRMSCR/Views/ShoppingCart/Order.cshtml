@@ -8,65 +8,67 @@
 @*Heading*@
 
 <h2 class="wow fadeInUp">Your Cart</h2>
-
+@{int c = 0; }
 @using (Html.BeginForm("update", "ShoppingCart", FormMethod.Post))
 {
     @*Cart*@
-<table class="table table-striped table-hover col-lg-offset-1 col-md-6" style=" width:43%;">
+    <table class="table table-striped table-hover col-md-6 table-bordered" style=" text-align: center;">
 
-    @*Table Headings*@
-    <tr>
-        <th>Product ID</th>
-        <th>ProductName</th>
-        <th>Available Quantity</th>
-        <th>UsedQuantity</th>
-        <th>Option</th>
-
-        @*<th>FactoryQuantity</th>*@
-
-    </tr>
-    @{
-        decimal s = 0; // To Store total
-    }
-    @foreach (Items item in (List<Items>)Session["cart"]) // Display each item from cart
-    {
-
-        //s = s + item..Price * item.Quantity; // Get the Sum of all products
-
+        @*Table Headings*@
         <tr>
+            <th style=" text-align: center;">S/N</th>
+            <th style=" text-align: center;">ProductName</th>
+            <th style=" text-align: center;">Available Quantity</th>
+            <th style=" text-align: center;">UsedQuantity</th>
+            <th style=" text-align: center;">Option</th>
 
-            @*ActionLink to remove products based on their id*@
-
-            <td>@item.Produc.ProductID</td>
-            <td class="form-control-static">
-                @item.Produc.ProductName
-            </td>
-            <td>@item.Produc.qty</td>
-            <td><input type="number" name="quantity" value="@item.Quantity" class="form-control col-md-1 " /></td>
-            @*<td>@Html.TextBoxFor(model => model.FactoryQtyU, new { @class = "form-control" })</td>*@
-
-            <td>
-    @Html.ActionLink("Remove ", "Delete", "ShoppingCart", new { id = item.Produc.ProductID }, new {@class="form-control" })
-</td>
+            @*<th>FactoryQuantity</th>*@
 
         </tr>
-    }
-        
-    <tr>
-        <td align="right" colspan="3"><strong><span class="alert-danger">@ViewBag.Error</span></strong></td>
-        <td> <input type="submit" value="Update" class="form-control btn-primary" /></td>
-    </tr>
-    <tr>
-    <td align="right" colspan="3"><strong></strong></td>
-    <td>
-        @Html.ActionLink("Complete the Transaction", "FinalPage", "ShoppingCart",null, new { @class = "btn btn-success" })
-        </td>
-    </tr>
+        @{
+            decimal s = 0; // To Store total
+        }
+        @foreach (Items item in (List<Items>)Session["cart"]) // Display each item from cart
+        {
 
-</table>
+            //s = s + item..Price * item.Quantity; // Get the Sum of all products
+
+            <tr>
+
+                @*ActionLink to remove products based on their id*@
+
+                <td> @{c++;}  @c</td>
+                <td class="form-control-static">
+                    @item.Produc.ProductName
+                </td>
+                <td>@item.Produc.qty</td>
+                <td><input type="text" name="quantity" value="@item.Quantity"   style="padding:0;margin:0; text-align: center; width:75px" class="input-sm"/></td>
+                @*<td>@Html.TextBoxFor(model => model.FactoryQtyU, new { @class = "form-control" })</td>*@
+
+                <td>
+                    @Html.ActionLink("Remove ", "Delete", "ShoppingCart", new { id = item.Produc.ProductID }, new { @class = "form-control btn btn-danger" })
+                </td>
+
+            </tr>
+        }
+
+        <tr>
+            <td align="right" colspan="3"><strong><span class="alert-danger">@ViewBag.Error</span><span class="alert-success" id="shower">@ViewBag.Success</span></strong></td>
+            <td> <input type="submit" value="Update" id="update" class="btn-primary btn-sm" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right" colspan="3"><strong></strong></td>
+            <td>
+                @Html.ActionLink("Complete the Transaction", "FinalPage", "ShoppingCart", null, new { @class = " btn btn-success" })
+            </td>
+            <td></td>
+        </tr>
+
+    </table>
 
 }
-  
+
 <div class="row">
     <div class="col-lg-offset-4 col-md-8">
         <p>
@@ -79,3 +81,18 @@
 </p>
 
 
+<script type="text/javascript">
+
+
+    $(function () {
+        $("#update").click(){
+
+            $("#shower").load(){
+
+                $("#shower").hide(30000)
+            }
+
+
+        }
+    });
+</script>

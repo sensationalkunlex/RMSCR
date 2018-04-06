@@ -31,42 +31,52 @@ namespace InventoryRMSCR.Controllers
             
           
         }
+       
         public ActionResult Update(FormCollection fc)
         {
+            String error = "";
             // I left something on done here;
             string[] quantities = fc.GetValues("quantity");
             decimal result = 0;
             List<Items> cart = (List<Items>)Session["cart"];
             int anotherCounter = 0;
             if (!int.TryParse(cart.Count.ToString(), out anotherCounter))
-            {
-                ViewBag.Error = "Nothing to Update";
+            {error= "Nothing to Update";
+                ViewBag.Error = error;
                 return RedirectToAction( "Order");
             }
                 for (int i = 0; i < cart.Count; i++)
             {
                 if (!decimal.TryParse(quantities[i], out result))
                 {
-                    ViewBag.Error = "One of the value supply is not in the format" + quantities[i] + "";
-                    // validation page 
+                    error += "One of the value supply is not in the format the input No" + (i + 1) + " \n";
+
+                    ViewBag.Error = error;
+                        // validation page 
 
                     
-                    return RedirectToAction("Order");
+                    return View("Order");
                 }
                 else if (Convert.ToDecimal(quantities[i]) < 0)
                 {
-                    
-                    ViewBag.Error = "Lower than zero";
-                    return View("Order");
+                    error += "Lower than zero  the input no" + (i + 1) + " \n";
+
+                    ViewBag.Error = error;
+
+                     return View("Order");
                 }
                 else if (decimal.Parse(quantities[i]) >= Convert.ToDecimal(cart[i].Produc.qty))
                 {
+                    error += "The Value Supplied is greater than the value of the Quantity Available at the input No " + (i + 1) + " \n";
                     
-                    ViewBag.Error = "The Value Supplied in One or More is greater than the value of the Quantity Available ";
+
+                    ViewBag.Error = error;
+
                     return View("Order");
                 }
                 else
                 {
+                    ViewBag.Success = "Update";
 
                     cart[i].Quantity = Convert.ToDecimal(quantities[i]);
                     Session["cart"] = cart;
@@ -94,7 +104,7 @@ namespace InventoryRMSCR.Controllers
 
                 if (cart.Count == 0)
                 {
-                    RedirectToAction("Transaction", "Home");
+                    RedirectToAction("Transaction", "Home" );
                 }
                 return View();
             }
@@ -284,6 +294,7 @@ namespace InventoryRMSCR.Controllers
         #endregion
 
         #region Order Now Action
+        
         public ActionResult OrderNow(int id)
         {
             try
@@ -315,9 +326,9 @@ namespace InventoryRMSCR.Controllers
                         Session["cart"] = cart; // Update Session["cart"]
                 }
 
-                 return RedirectToAction("Transaction", "Home");
+                 return RedirectToAction("Transaction", "Home" );
             }
-            catch { return RedirectToAction("Transaction", "Home");
+            catch { return RedirectToAction("Transaction", "Home" );
             }
         }
         #endregion

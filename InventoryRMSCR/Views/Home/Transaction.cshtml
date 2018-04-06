@@ -1,41 +1,66 @@
-﻿@{Layout = "~/Views/Shared/_Layout.cshtml";
-    
-    
-    } @*Use custom layout*@
-@using InventoryRMSCR.Models @*For tblProduct Class*@
-@*@using PagedList.Mvc; @*//import this so we get our HTML Helper*@
-@*@using PagedList; @*//import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@*@*@
+﻿@model IEnumerable<InventoryRMSCR.Models.Product>
+@using PagedList.Mvc;
+
+
+@using InventoryRMSCR.Models
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*Use custom layout*@
+@*For tblProduct Class*@
 
 
 @{
     ViewBag.Title = "Record";
 }
-<!-- import the included stylesheet for some (very basic) default styling -->
+
 <link href="~/Content/PagedList.css" rel="stylesheet" />
+
 @*Heading*@
 <h1 class="jumbotron text-center">RMSCR Inventory App</h1>
-
+@{int c = 0; }
 @*Products*@
-        <table class="table table-striped table-hover  col-md-6 " >
-            <tr>
-                <th>Name</th>
-                <th>Quantity Available</th>
-                <th>AddToCart</th>
-            </tr>
-            @*Retrieve products from the ViewBag*@
-            @foreach (Product p in ViewBag.listProduct)
-        {
-            <tr>
-                <td>@p.ProductName</td>
-                <td>@p.qty</td>
-                <td>
-                    @Html.ActionLink("Add Cart", "OrderNow", "ShoppingCart", new { id = p.ProductID }, new { @class = "btn btn-default" })
-                </td>
+<table class="table table-striped table-hover table-bordered col-md-6 ">
+    <tr>
+        <td>S/N</td>
+        <th>Name</th>
+        <th>Quantity Available (Kg)</th>
+        <th>Qty(Q/25Kg)</th>
 
-            </tr>
-    }
-        </table>
-    </div>
-</div>
+        <th>AddToCart</th>
+    </tr>
+
+    @*Retrieve products from the ViewBag*@
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>
+                @{c++;}  @c
+            </td>
+            <td>@p.ProductName</td>
+            <td>@p.qty</td>
+            <td>@(p.qty / 25)</td>
+            <td>
+                @Html.ActionLink("Add Cart", "OrderNow", "ShoppingCart", new { id = p.ProductID }, new { @class = "btn btn-primary" })
+            </td>
+
+        </tr>
+
+                    }
+    
+    <tr>
+        <td></td>
+        <td>Total Available</td>
+        <td> @ViewBag.TotalAvai</td>
+        <td>@(ViewBag.TotalAvai/25)</td>
+        <td></td>
+    </tr>
+            
+        
+</table>
+
 <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
-@*@Html.PagedListPager((IPagedList)ViewBag.ListProducts, page => Url.Action("Index", new { page }))*@
+@*@Html.PagedListPager(Model, page => Url.Action("Transaction", new { page = page }))*@
+@*page @Html.PagedListPager(Model, page => Url.Action("Transaction", new { page = page }), PagedListRenderOptions.PageNumbersOnly)*@

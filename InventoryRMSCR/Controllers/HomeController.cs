@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using InventoryRMSCR.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace InventoryRMSCR.Controllers
 {
@@ -12,10 +14,27 @@ namespace InventoryRMSCR.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        decimal totallAvai = 0;
         public ActionResult Transaction()
         {
-            ViewBag.listProduct = db.products.ToList();
-            return View();
+
+            int? page = 0;
+            if (page ==null) {
+                page = 1;
+            }
+            
+            var listProduct = db.products.ToList();
+            object paging = page;
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            foreach (var q in listProduct)
+            {
+               totallAvai+= q.qty;
+            }
+            ViewBag.TotalAvai = totallAvai;
+            return View(listProduct);
+//return View();
+//
         }
 
         public ActionResult ViewRecord()
@@ -24,7 +43,7 @@ namespace InventoryRMSCR.Controllers
             List<Factory> factory = db.factoryP.ToList();
             ViewBag.Factory = new SelectList(factory, "FactoryName", "FactoryName");
             //string fa, DateTime startDate, DateTime endDate
-
+/*
             string fa = "";
 
             DateTime startDate=DateTime.Now;
@@ -49,7 +68,7 @@ namespace InventoryRMSCR.Controllers
                                                       orderby getter.MasterID ascending
                                                       select getter).ToList();
 
-
+            */
             return View();
         }
         [NonAction]
