@@ -12,7 +12,7 @@ namespace InventoryRMSCR.Models
         [Display(Name="Quantity")]
         [Range(0, 9999999999999, ErrorMessage = "The value must be greater than 0")]
         public decimal qty { get; set; }
-        public System.DateTime Date { get; set; }
+        public DateTime Date { get; set; }
         public int getID { get; }
     }
 }

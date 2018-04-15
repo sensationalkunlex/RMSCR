@@ -16,7 +16,11 @@ namespace InventoryRMSCR.Models
         public string ProductName { get; set; }
         [Range(0, 9999999999999, ErrorMessage = "The value must be greater than 0")]
         public decimal FactoryQtyU { get; set; }
-        public System.DateTime date { get; set; }
+ 
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = @"{0:dd\/MM\/yyyy HH:mm}",
+                ApplyFormatInEditMode = true)]
+        public DateTime date { get; set; }
+        public virtual MasterTbl MasterTbl { get; set; }
 
     }
 }

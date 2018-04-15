@@ -1,0 +1,87 @@
+﻿@model  IEnumerable<InventoryRMSCR.Models.ProductTransaction>
+
+@{
+    ViewBag.Title = "Product Analysis";
+}
+
+
+    <br />
+
+
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+
+            <th>
+
+                Date
+            </th>
+            <th>
+                ProductName
+            </th>
+            <th>
+                UsedType
+            </th>
+            <th>
+                initial Value
+            </th>
+            <th>
+                AddedValue
+            </th>
+
+            <th>
+                TotalValue
+            </th>
+        </tr>
+
+      
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(a => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(a => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FactoryUsed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InitialValue)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedValue)
+            </td>
+            <td>
+                @(item.AddedValue + item.InitialValue - item.FactoryUsed)
+            </td>
+        </tr>
+        }
+    </table>
+    <br />
+
+@*@{int count = 0; }
+    @foreach(var u in Model)
+    {
+        count++;
+    }*@
+
+
+@*@if (Model.Equals(false) )
+    {
+        <span><h1>No Record Found</h1> Click on</span>
+
+    }*@
+@Html.ActionLink("Go Back to select another", "ViewRecord");
+@Scripts.Render("~/bundles/jqueryui")
+
+
+
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
+
+
+

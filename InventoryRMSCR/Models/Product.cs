@@ -17,6 +17,8 @@ namespace InventoryRMSCR.Models
         public decimal qty { get; set; }
         [Display(Name = "Present Quantity(s)")]
         public decimal? iniqty { get; set; }
+        
+        public DateTime Date { get; set; }
         public IList<ProductTransaction> prod { get; set; }
 
 

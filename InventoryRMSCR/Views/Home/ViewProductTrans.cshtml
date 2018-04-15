@@ -1,0 +1,60 @@
+﻿@* Product Transaction Detail *@
+<br /><br /><br /><br />
+<center>
+    <h1> Check Transactions of the Product</h1>
+    <br /><br />
+    <div class="row">
+        <div>
+            @using (Html.BeginForm("GetProductResult", "Home", FormMethod.Get))
+            {
+                <div class="row">
+                    @*<div class="col-md-3">
+
+                            <span class="">Select </span>
+                            @Html.DropDownList("Factory", ViewBag.Factory as SelectList, new { @class = "form-control" })
+                            @* @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class="form-control input-lg"}
+                        </div>*@
+
+
+                    <div class="col-md-4">
+                        <span> Start Date</span>
+                        <input type="text" name="startDates" id="datepicker" class="form-control" placeholder="mm/dd/yyyy" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <span> End Date</span>
+                        <input type="text" name="endDates" id="datepicker1" class="form-control" placeholder="mm/dd/yyyy" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <span><br /></span>
+
+
+                        <input type="submit" class="btn btn-info form-control" value="Search" />
+
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+    <br />  <br />
+
+
+</center>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section Scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+
+
+        $(function () {
+            $("#datepicker").datepicker({ dateFormat: "mm/dd/yy" });
+        });
+
+        $(function () {
+            $("#datepicker1").datepicker({ dateFormat: "mm/dd/yy" });
+        });
+    </script>
+}

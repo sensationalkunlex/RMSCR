@@ -1,4 +1,4 @@
-﻿@model  InventoryRMSCR.Models.ProductViewModel
+﻿@model  InventoryRMSCR.Models.Product
 
 @{
     ViewBag.Title = "Create";
@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
@@ -20,33 +20,53 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.qty, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.qty, htmlAttributes: new { @class = "control-label col-md-2" })
 
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.qty, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.qty, "", new { @class = "text-danger" })
-                </div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.qty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.qty, "", new { @class = "text-danger" })
             </div>
-        <div class="col-md-offset-2 col-md-10" >
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "datepicker" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-offset-2 col-md-10">
             <span class="text-danger">   @ViewBag.Error</span>
         </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+    </div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+@*@Styles.Render*@
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section Scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+
+        $(".datepicker").datepicker({
+            dateFormat: "mm/dd/yy"
+        });
+    </script>
+
 }

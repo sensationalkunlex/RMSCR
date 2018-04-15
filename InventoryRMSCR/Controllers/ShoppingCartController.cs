@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using InventoryRMSCR.Models;
 namespace InventoryRMSCR.Controllers
 {
@@ -88,8 +89,22 @@ namespace InventoryRMSCR.Controllers
             
         }
 
-        public ActionResult SuccessPage()
+        public ActionResult SuccessPage(int ID)
         {
+            ViewBag.ValuePass = ID;
+            //decimal totalUsed = 0;
+            List<MasterTbl> master = (from getter in db.mastertb
+                                      where getter.MasterID == ID                                    orderby getter.MasterID ascending
+                                      select getter).ToList();
+            ViewBag.RecordMaster = master;
+
+            List<FactoriesTransaction> factoryTran = (from getter in db.FactoriesTransactions
+                                                      where getter.MasterID ==ID
+                                                      orderby getter.MasterID ascending
+                                                      select getter).ToList();
+            ViewBag.RecordFact = factoryTran;
+
+
             return View();
         }
         public ActionResult Index()
@@ -122,13 +137,19 @@ namespace InventoryRMSCR.Controllers
 
             int count = 1;
             // checking the db for the last value and adding. how to check the next value;
-            if (dob.mastertb.ToList().Count != 0) {
-                var query1 = (from tbl in dob.mastertb
+            if (dob.mastertb.ToList().Count == 0)
+            {
 
+
+
+            }
+            else
+            {
+                var query1 = (from tbl in dob.mastertb
                               select tbl.MasterID).ToList().Last();
 
                 count = Convert.ToInt32(query1) + 1;
-                    }
+            }
             @ViewBag.MasterID = count;
             List<Items> cart = (List<Items>)Session["cart"];
             ViewBag.getter = cart;
@@ -161,7 +182,13 @@ namespace InventoryRMSCR.Controllers
         {
             // if the value is not selected... Remain on a single page pass msg
             //if()
-            
+            int count = 1;
+            if (factories.date == null)
+            {
+
+                ViewBag.Error = "Select Date";
+                return View("FinalPage");
+            }
             try
             {
                 //Product Updating
@@ -171,7 +198,10 @@ namespace InventoryRMSCR.Controllers
                     Product pro = dob.products.Single(a => a.ProductID == item.Produc.ProductID);
                     pro.qty = Convert.ToDecimal(item.Produc.qty) - Convert.ToDecimal(item.Quantity);
                     pro.iniqty = Convert.ToDecimal(item.Produc.qty) - Convert.ToDecimal(item.Quantity);
+                  //  pro.FactoryUsed = Convert.ToDecimal(item.Produc.qty);
+                    pro.Date = factories.date;
                     dob.SaveChanges();
+
                 }
 
                 // How to solve the last problem
@@ -188,15 +218,15 @@ namespace InventoryRMSCR.Controllers
                 //Order 
                 MasterTbl ms = new MasterTbl()
                 {
-                    FactoryName =factories.FactoryName,
-                    GetDate = DateTime.Now,
+                    FactoryName = factories.FactoryName,
+                    GetDate = factories.date,
+                    ActualQty = factories.ActualVal,
                     Total = total,
                 };
                 dob.mastertb.Add(ms);
               dob.SaveChanges();
 
 
-                int count = 1;
                 // checking the db for the last value and adding. how to check the next value;
                 try
                 {
@@ -223,11 +253,23 @@ namespace InventoryRMSCR.Controllers
                     ft.date = DateTime.Now;
                     dob.FactoriesTransactions.Add(ft);
                     dob.SaveChanges();
+
+
+
+
+                    ProductTransaction ne = new ProductTransaction();
+                    ne.InitialValue = Convert.ToDecimal(item.Produc.iniqty);
+                    ne.FactoryUsed = Convert.ToDecimal(item.Quantity);
+                    ne.ProductName = item.Produc.ProductName;
+                    ne.Date = factories.date;
+                    dob.productTrans.Add(ne);
+                    dob.SaveChanges();
+
                     // and soon
                     //dn.FactoriesTransaction.Add(db);
                     //Dn.SaveChanges();
                 }
-                
+
 
 
 
@@ -244,6 +286,7 @@ namespace InventoryRMSCR.Controllers
             }
             catch(Exception ee)
             {
+                return Content("Error");
                 
             }
             //return to home control action method
@@ -253,10 +296,10 @@ namespace InventoryRMSCR.Controllers
             //List<Items> cart = (List<Items>)Session["cart"]; // Put all the items from the "Session["cart"] into the list cart
 
             //if (cart.Count < 1)
-            
-                return RedirectToAction("SuccessPage");
-            
-          
+           // ViewBag.vvv = count;
+               // return ("SuccessPage", ViewBag.vvv);
+
+            return RedirectToAction("SuccessPage",  new { id = count });
         }
 
        

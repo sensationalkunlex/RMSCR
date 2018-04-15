@@ -8,15 +8,12 @@ namespace InventoryRMSCR.Models
 {
     public class ViewModelRecord
     {
-        [Display(Name = "DateFrm")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = @"{0:dd\/MM\/yyyy HH:mm}",
+                   ApplyFormatInEditMode = true)]
         public DateTime DateFrm { get; set; }
 
-
-        [Display(Name = "DateTo")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = @"{0:dd\/MM\/yyyy HH:mm}",
+                ApplyFormatInEditMode = true)]
         public DateTime DateTo { get; set; }
     }
 }

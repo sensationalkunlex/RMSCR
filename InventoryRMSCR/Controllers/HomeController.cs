@@ -37,61 +37,145 @@ namespace InventoryRMSCR.Controllers
 //
         }
 
-        public ActionResult ViewRecord()
+
+
+
+        DateTime Startn = DateTime.Now;
+        DateTime Endn = DateTime.Now;
+        public ActionResult getRecord(string Factory, string startDate, string endDate)
         {
+            ViewBag.Message = "Pagedlist";
+            //List<Factory> factory = db.factoryP.ToList();
+            // ViewBag.Factory = new SelectList(factory, "FactoryName", "FactoryName");
+
+            if (Factory != null)
+            {
+                
+                if (!DateTime.TryParse(startDate, out Startn))
+                    {
+
+                    return RedirectToAction("ViewRecord","Home");
+                }
+               
+                if (!DateTime.TryParse(endDate, out Endn))
+                {
+
+                   return RedirectToAction("ViewRecord", "Home");
+                }
+                DateTime Start = Convert.ToDateTime(startDate); ;
+                //if(DateTime.TryParse())
+                DateTime g = Convert.ToDateTime(endDate).AddDays(1);
+                DateTime End = Convert.ToDateTime(g);
+                if (Start > End)
+                {
+                    return RedirectToAction("ViewRecord", "Home");
+
+                }
+                var master = from getter1 in db.mastertb
+                             join getter2 in db.FactoriesTransactions on getter1.MasterID equals getter2.MasterID
+                             where getter1.FactoryName == Factory && (getter1.GetDate >= Start && getter1.GetDate <= End)
+                             orderby getter1.MasterID ascending
+                             select new MasterFactorViewModel { Masterrr=getter1, Transaction=getter2};
+                                 // Id = getter1.MasterID, TotalVal = getter1.Total, MDate = getter1.GetDate, FactoryNamee = getter1.FactoryName, getProduct = getter2.ProductName, getUsed = getter2.FactoryQtyU, getDate = getter2.date };
+
+
+
+
+                return View(master);
+            }
+            return View();
+        }
+
+
+        public ActionResult GetProductResult(string startDates, string endDates)
+        {
+            if (!DateTime.TryParse(startDates, out Startn))
+            {
+
+                return RedirectToAction("ViewRecord", "Home");
+            }
+
+            if (!DateTime.TryParse(endDates, out Endn))
+            {
+
+                return RedirectToAction("ViewRecord", "Home");
+            }
+            
+            DateTime Start = Convert.ToDateTime(startDates); ;
+            //if(DateTime.TryParse())
+            DateTime g = Convert.ToDateTime(endDates).AddDays(1);
+            DateTime End = Convert.ToDateTime(g);
+            if (Start > End)
+            {
+                return RedirectToAction("ViewRecord", "Home");
+
+            }
+            var query = from qq in db.productTrans
+                        where qq.Date >= Start && qq.Date <= End
+                        orderby qq.Date descending
+                        select qq;
+
+            return View(query);
+        }
+
+
+        public ActionResult ViewProductTrans()
+        {
+            return View();
+        }
+
+        public ActionResult ViewRecord( )
+        {
+            string fa="";
+            DateTime startDate=DateTime.Now;
+            DateTime endDate=DateTime.Now;
+
+
             ViewBag.Message = "Pagedlist";
             List<Factory> factory = db.factoryP.ToList();
             ViewBag.Factory = new SelectList(factory, "FactoryName", "FactoryName");
-            //string fa, DateTime startDate, DateTime endDate
-/*
-            string fa = "";
 
-            DateTime startDate=DateTime.Now;
-            DateTime endDate = DateTime.Now;
-
-
-            decimal totalUsed = 0;
-            List<MasterTbl> master = (from getter in db.mastertb
-                                      where getter.FactoryName == fa && (getter.GetDate.Date >= startDate.Date && getter.GetDate.Date <= endDate.Date)
-                                      orderby getter.MasterID ascending
-                                      select getter).ToList();
-
-            foreach (var q in master)
+            if (fa != null)
             {
-                totalUsed += q.Total;
+                //DateTime
 
 
+                //var master = from getter1 in db.mastertb
+                //             join getter2 in db.FactoriesTransactions on getter1.MasterID equals getter2.MasterID
+                //             where getter1.FactoryName == fa && (getter1.GetDate.Date >= startDate.Date && getter1.GetDate.Date <= endDate.Date)
+                //             orderby getter1.MasterID ascending
+                //             select new { Id = getter1.MasterID, TotalVal = getter1.Total, MDate = getter1.GetDate, FactoryNamee = getter1.FactoryName, getProduct = getter2.ProductName, getUsed = getter2.FactoryQtyU, getDate = getter2.date };
+
+
+
+
+                return View();
             }
-
-            List<FactoriesTransaction> factoryTran = (from getter in db.FactoriesTransactions
-                                                      where getter.FactoryName == fa && (getter.date.Date >= startDate.Date && getter.date.Date <= endDate.Date)
-                                                      orderby getter.MasterID ascending
-                                                      select getter).ToList();
-
-            */
             return View();
+
+
+
         }
+
+
+
         [NonAction]
         private void displayFactoryUsed(string fa, DateTime startDate, DateTime endDate)
         {
 
-            decimal totalUsed = 0;
-            List<MasterTbl> master = (from getter in db.mastertb
-                                      where getter.FactoryName == fa && (getter.GetDate.Date >= startDate.Date && getter.GetDate.Date <= endDate.Date)
-                                      orderby getter.MasterID ascending
-                                      select getter).ToList();
+           // decimal totalUsed = 0;
+            var master = from getter1 in db.mastertb
+                          join getter2 in db.FactoriesTransactions on getter1.MasterID equals getter2.MasterID
+                          where getter1.FactoryName == fa && (getter1.GetDate.Date >= startDate.Date && getter1.GetDate.Date <= endDate.Date)
+                                      orderby getter1.MasterID ascending
+                                      select  new { Id=getter1.MasterID, TotalVal= getter1.Total, MDate=getter1.GetDate,FactoryNamee= getter1.FactoryName, getProduct=getter2.ProductName, getUsed=getter2.FactoryQtyU, getDate=getter2.date};
 
-            foreach (var q in master)
-            {
-                totalUsed += q.Total;
+            
 
-
-            }
-
-            List<FactoriesTransaction> factoryTran = (from getter in db.FactoriesTransactions
-                                                      where getter.FactoryName == fa && (getter.date.Date >= startDate.Date && getter.date.Date <= endDate.Date)
-                                                      orderby getter.MasterID ascending
-                                                      select getter).ToList();
+            //List<FactoriesTransaction> factoryTran = (from getter in db.FactoriesTransactions
+            //                                          where getter.FactoryName == fa && (getter.date.Date >= startDate.Date && getter.date.Date <= endDate.Date)
+            //                                          orderby getter.MasterID ascending
+            //                                          select getter).ToList();
 
 
             int id = 0;

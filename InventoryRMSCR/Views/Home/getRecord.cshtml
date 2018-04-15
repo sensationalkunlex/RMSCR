@@ -1,0 +1,137 @@
+﻿
+@model  IEnumerable<InventoryRMSCR.Models.MasterFactorViewModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/jqueryui")
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<h2 class="text-center">Records</h2>
+<hr />
+<div class="bs-docs-section">
+   
+        
+</div>
+@if (Model != null)
+{
+    
+    <table class="table table-striped table-bordered table-hover text-center" style="width:45%">
+        <tr> 
+
+            <th>
+                MasterID
+            </th>
+            <th>
+                Total (Kg)
+            </th>
+            <th>
+                Total Bag(Q/25kg) 
+            </th>
+        </tr>
+        @{int masterID = 0; }
+        @foreach (var item in Model)
+        {
+            //Data acc Masterfirst
+
+            <tr>
+                @if (item.Masterrr.MasterID != masterID)
+                {
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Masterrr.MasterID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Masterrr.Total)
+                </td>
+                <td>@(item.Masterrr.Total / 25)</td>
+                    masterID = item.Masterrr.MasterID;
+
+                }
+            </tr>
+
+
+        }
+    </table>
+    <br />
+
+
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>
+
+                MasterID
+            </th>
+            <th>
+
+                Date
+            </th>
+            <th>
+                ProductName
+            </th>
+            <th>
+                UsedValue(Kg)
+            </th>
+            <th>
+                UsedValue(Q/25Kg)
+            </th>
+
+        </tr>
+
+        @{decimal Total = 0; }
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.MasterID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.FactoryQtyU)
+            </td>
+            <td>
+                @(item.Transaction.FactoryQtyU / 25)
+            </td>
+            @{Total += item.Transaction.FactoryQtyU;}
+        </tr>
+                }
+
+        <tr>
+
+            <td colspan="3" class="text-right"> The Value Used in (Kg)</td>
+            <td>@Total kg</td>
+            <td>@(Total/25) bags</td>
+        </tr>
+    </table>
+    <br />
+}
+@*@{int count = 0; }
+                @foreach(var u in Model)
+                {
+                    count++;
+                }*@
+
+
+@*@if (Model.Equals(false) )
+{
+    <span><h1>No Record Found</h1> Click on</span>
+    
+}*@
+@Html.ActionLink("Go Back to select another", "ViewRecord");
+                @Scripts.Render("~/bundles/jqueryui")
+
+
+
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
+

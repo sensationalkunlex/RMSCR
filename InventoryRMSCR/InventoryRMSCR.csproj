@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnalysisController.cs" />
     <Compile Include="Controllers\FactoryPsController.cs" />
+    <Compile Include="Controllers\GetRecordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -222,6 +223,30 @@
     <Compile Include="Migrations\201804040427180_tt.Designer.cs">
       <DependentUpon>201804040427180_tt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804071846295_getter.cs" />
+    <Compile Include="Migrations\201804071846295_getter.Designer.cs">
+      <DependentUpon>201804071846295_getter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804090611589_changesbecosdate.cs" />
+    <Compile Include="Migrations\201804090611589_changesbecosdate.Designer.cs">
+      <DependentUpon>201804090611589_changesbecosdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804090827189_dattte.cs" />
+    <Compile Include="Migrations\201804090827189_dattte.Designer.cs">
+      <DependentUpon>201804090827189_dattte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804091451012_Fac.cs" />
+    <Compile Include="Migrations\201804091451012_Fac.Designer.cs">
+      <DependentUpon>201804091451012_Fac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804092009419_Facee.cs" />
+    <Compile Include="Migrations\201804092009419_Facee.Designer.cs">
+      <DependentUpon>201804092009419_Facee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804141547550_Adding_Actual.cs" />
+    <Compile Include="Migrations\201804141547550_Adding_Actual.Designer.cs">
+      <DependentUpon>201804141547550_Adding_Actual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FactoriesTransaction.cs" />
@@ -229,6 +254,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Items.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MasterFactorViewModel.cs" />
     <Compile Include="Models\MasterTbl.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductTransaction.cs" />
@@ -300,6 +326,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui-i18n.js" />
+    <Content Include="Scripts\jquery-ui-i18n.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -341,11 +369,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Fatories\Create.cshtml" />
-    <Content Include="Views\Fatories\Delete.cshtml" />
-    <Content Include="Views\Fatories\Details.cshtml" />
-    <Content Include="Views\Fatories\Edit.cshtml" />
-    <Content Include="Views\Fatories\Index.cshtml" />
     <Content Include="Views\Products\Create.cshtml" />
     <Content Include="Views\Products\Delete.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
@@ -363,6 +386,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ShoppingCart\SuccessPage.cshtml" />
     <Content Include="Views\Analysis\Index.cshtml" />
+    <Content Include="Views\Home\_ViewTran.cshtml" />
+    <Content Include="Views\Home\getRecord.cshtml" />
+    <Content Include="Views\Home\GetProductResult.cshtml" />
+    <Content Include="Views\Home\ViewProductTrans.cshtml" />
+    <Content Include="Views\GetRecord\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -392,6 +420,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804040427180_tt.resx">
       <DependentUpon>201804040427180_tt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804071846295_getter.resx">
+      <DependentUpon>201804071846295_getter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804090611589_changesbecosdate.resx">
+      <DependentUpon>201804090611589_changesbecosdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804090827189_dattte.resx">
+      <DependentUpon>201804090827189_dattte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804091451012_Fac.resx">
+      <DependentUpon>201804091451012_Fac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804092009419_Facee.resx">
+      <DependentUpon>201804092009419_Facee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804141547550_Adding_Actual.resx">
+      <DependentUpon>201804141547550_Adding_Actual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

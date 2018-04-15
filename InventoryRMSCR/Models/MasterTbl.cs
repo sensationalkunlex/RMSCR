@@ -14,7 +14,8 @@ namespace InventoryRMSCR.Models
         public System.DateTime GetDate { get; set; }
         [Range(0, 9999999999999, ErrorMessage = "The value must be greater than 0")]
         public decimal Total { get; set; }
-        public List<FactoriesTransaction> factories { get; set;}
+        public decimal ActualQty { get; set; }
+        public virtual IList<FactoriesTransaction> factories { get; set;}
 
     }
 }

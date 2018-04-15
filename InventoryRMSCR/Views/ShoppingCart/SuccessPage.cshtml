@@ -1,8 +1,89 @@
-﻿
+﻿@using InventoryRMSCR.Models
 
+<br/>
 <div class="jumbotron">
-    <h1><span>Transaction Completed</span></h1>
-    <p class="lead">This is simply a test</p>
-    <p><button type="button" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Index", "Home")'">Go back to Homepage &raquo;</button></p>
+    <h1 class="text-center"><span >Completed</span></h1>
+
 </div>
+<div>
+    @foreach (MasterTbl q in ViewBag.RecordMaster)
+    {
+
+        int Id = q.MasterID;
+        decimal Total = q.Total;
+        DateTime date = q.GetDate;
+        string Factory = q.FactoryName;
+        decimal ActualQty = q.ActualQty;
+
+
+        <div class="list-unstyled panel-primary">
+
+            <table class="table table-striped table-hover table-bordered col-md-6 ">
+                <tr></tr>
+
+                <tr class="">
+                    <td>
+
+                        ID Number:
+
+                    </td>
+                    <td>@q.MasterID</td>
+                </tr>
+                <tr><td> Factory:</td><td>@q.FactoryName</td></tr>
+
+
+                <tr><td> Date:</td><td> @q.GetDate</td></tr>
+
+                <tr><td> Expected Total Value:</td><td> @q.Total</td></tr>
+                <tr><td> Expected Total Value (Bag):</td><td> @(q.Total / 25)</td></tr>
+
+                <tr><td> Actual Value:</td><td> @q.ActualQty</td></tr>
+
+                <tr><td> Actual Value:</td><td> @(q.ActualQty/25)</td></tr>
+
+
+
+
+            </table>
+
+        </div>
+
+    }
+</div>
+@{int c = 0; }
+<table class="table table-striped table-hover table-bordered col-md-6 ">
+    <tr>
+        <td>S/N</td>
+        <th>Name</th>
+        <th>Quantity Available (Kg)</th>
+        <th>Qty(Q/25Kg)</th>
+
+    </tr>
+    @foreach (FactoriesTransaction p in ViewBag.RecordFact)
+    {
+        <tr>
+            <td>
+                @{c++;}  @c
+            </td>
+            <td>@p.ProductName</td>
+            <td>@p.FactoryQtyU</td>
+            <td>@(p.FactoryQtyU / 25)</td>
+
+
+        </tr>
+
+    }
+
+</table>
+
+<p><button type="button" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Index", "Home")'">Go back to Homepage &raquo;</button></p>
+
+
+
+
+
+
+
+
+
 

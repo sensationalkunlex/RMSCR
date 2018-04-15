@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using InventoryRMSCR.Models;
@@ -46,11 +48,23 @@ namespace InventoryRMSCR.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductViewModel product)
+        public ActionResult Create(Product product)
         {
 
             int getInit = 0;
             int i = 0;
+            //if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+            //{
+            //    ViewBag.Error = "Current CCC";
+            //    return View();
+
+
+            //}
+
+
+           // CultureInfo cultures =  CultureInfo.GetCultureInfo("en-US");
+            //product.Date = Convert.ToDateTime(product.Date, CultureInfo.CreateSpecificCulture("en-US"));
+           Convert.ToDateTime(product.Date);
             if (ModelState.IsValid)
             {
                 var query = from d in db.products
@@ -58,37 +72,51 @@ namespace InventoryRMSCR.Controllers
                             select d.ProductID;
                 foreach (var g in query)
                 {
+                    i++;
+                   
+
+                }
+                if (i>=1) {
+
+
+
                     ViewBag.Error = "The Product Name is in database before";
                     return View();
 
-
                 }
-                     
-                   
+                else {
 
-               
-
-
-                Product ue = new Product();
-                ue.iniqty= product.qty;
-                ue.ProductName = product.ProductName;
-                ue.qty = product.qty;
-                db.products.Add(ue);
-                
-                db.SaveChanges();
+                    if (product.Date == null)
+                    {
+                        ViewBag.Error = "Invalid Date";
+                        return View();
+                    }
 
 
-                ProductTransaction ne = new ProductTransaction();
-                ne.InitialValue = 0;
-                ne.AddedValue = product.qty;
-                ne.ProductName = product.ProductName;
-                ne.Date = System.DateTime.Now;
-                db.productTrans.Add(ne);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+
+
+                    Product ue = new Product();
+                    ue.iniqty = product.qty;
+                    ue.ProductName = product.ProductName;
+                    ue.qty = product.qty;
+                    ue.Date = product.Date;
+                    db.products.Add(ue);
+                    db.SaveChanges();
+
+
+                    ProductTransaction ne = new ProductTransaction();
+                    ne.InitialValue = 0;
+                    ne.AddedValue = product.qty;
+                    ne.ProductName = product.ProductName;
+                    ne.Date = product.Date;
+                    db.productTrans.Add(ne);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
             return View(product);
+           
         }
 
         // GET: Products/Edit/5
@@ -149,7 +177,8 @@ namespace InventoryRMSCR.Controllers
                 decimal y = x;
                 pro.qty = y;
                 pro.iniqty = y;
-                db.SaveChanges();
+                pro.Date = product.Date;
+              
 
 
 
@@ -157,11 +186,11 @@ namespace InventoryRMSCR.Controllers
                 ne.InitialValue = Convert.ToDecimal(product.iniqty);
                 ne.AddedValue = product.qty;
                 ne.ProductName = product.ProductName;
-                ne.Date = System.DateTime.Now;
+                ne.Date = product.Date;
                 db.productTrans.Add(ne);
                 db.SaveChanges();
 
-                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
             return View(product);

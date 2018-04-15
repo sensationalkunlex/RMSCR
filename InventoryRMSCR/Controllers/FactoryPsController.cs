@@ -46,7 +46,7 @@ namespace InventoryRMSCR.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FactoryID,FactoryName")] Factory factoryP)
+        public ActionResult Create([Bind(Include = "FactoryID,FactoryName,CreatedDate")] Factory factoryP)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace InventoryRMSCR.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FactoryID,FactoryName")] Factory factoryP)
+        public ActionResult Edit([Bind(Include = "FactoryID,FactoryName,CreatedDate")] Factory factoryP)
         {
             if (ModelState.IsValid)
             {
